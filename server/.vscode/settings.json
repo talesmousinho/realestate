@@ -1,0 +1,8 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-boot-dev-pack"
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
+}

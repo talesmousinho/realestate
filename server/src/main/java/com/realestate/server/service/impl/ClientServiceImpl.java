@@ -34,7 +34,8 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public Client updateClient(Long id, Client client) {
     return clientRepository.findById(id).map(c -> {
-      c.setName(client.getName());
+      c.setFirstName(client.getFirstName());
+      c.setLastName(client.getLastName());
       c.setEmail(client.getEmail());
       c.setPhone(client.getPhone());
       return clientRepository.save(c);

@@ -20,7 +20,10 @@ public class Client {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String name;
+  @NonNull
+  private String firstName;
+
+  private String lastName;
 
   @Column(unique = true)
   private String email;

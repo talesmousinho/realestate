@@ -13,22 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.realestate.server.entities.Client;
-import com.realestate.server.repositories.ClientRepository;
+import com.realestate.server.service.ClientService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/clients")
 public class ClientController {
 
-  private ClientRepository clientRepository;
-
-  public ClientController(ClientRepository clientRepository) {
-    this.clientRepository = clientRepository;
-  }
+  private ClientService clientService;
 
   @GetMapping
   public ResponseEntity<List<Client>> getClients() {
     try {
-      List<Client> clients = clientRepository.findAll();
+      List<Client> clients = clientService.getClients();
       if (clients.isEmpty()) {
         return ResponseEntity.noContent().build();
       }
@@ -40,15 +39,20 @@ public class ClientController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Client> getClient(@PathVariable Long id) {
-    return clientRepository.findById(id).map(client -> ResponseEntity.ok().body(client))
-        .orElse(ResponseEntity.notFound().build());
+    try {
+      Client client = clientService.getClient(id);
+      return ResponseEntity.ok().body(client);
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @PostMapping
   public ResponseEntity<Client> createClient(@RequestBody Client client) {
     try {
-      Client newClient = clientRepository.save(client);
-      return ResponseEntity.ok().body(newClient);
+      client.setId(null);
+      Client createdClient = clientService.createClient(client);
+      return ResponseEntity.ok().body(createdClient);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
@@ -56,21 +60,22 @@ public class ClientController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Client> updateClient(@PathVariable Long id, Client client) {
-    return clientRepository.findById(id).map(c -> {
-      c.setName(client.getName());
-      c.setEmail(client.getEmail());
-      c.setPhone(client.getPhone());
-      Client updatedClient = clientRepository.save(c);
+    try {
+      Client updatedClient = clientService.updateClient(id, client);
       return ResponseEntity.ok().body(updatedClient);
-    }).orElse(ResponseEntity.notFound().build());
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
-    return clientRepository.findById(id).map(client -> {
-      clientRepository.delete(client);
-      return ResponseEntity.ok().body(client);
-    }).orElse(ResponseEntity.notFound().build());
+    try {
+      clientService.deleteClient(id);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
 }

@@ -9,4 +9,4 @@ Open the directory `./server` with VS Code and install the recommended extension
 ### To run:
 
 Using Maven, you can run the application locally by using `./mvnw spring-boot:run`.  
-Alternatively, you can build the JAR file with `./mvnw clean package` and then run the JAR file `java -jar target/gs-rest-service-0.1.0.jar`.
+Alternatively, you can build the JAR file with `./mvnw clean package` and then run the JAR file `java -jar target/server-0.0.1-SNAPSHOT.jar`.

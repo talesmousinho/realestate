@@ -2,6 +2,7 @@ package com.realestate.server.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.realestate.server.entities.Client;
 import com.realestate.server.service.ClientService;
 
-import lombok.AllArgsConstructor;
-
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/clients")
 public class ClientController {
 
+  @Autowired
   private ClientService clientService;
 
   @GetMapping

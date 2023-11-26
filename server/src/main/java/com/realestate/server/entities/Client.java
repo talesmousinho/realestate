@@ -1,18 +1,16 @@
 package com.realestate.server.entities;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Client {
 
@@ -20,15 +18,18 @@ public class Client {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NonNull
+  @NotNull
+  @Column(nullable = false)
   private String firstName;
 
   private String lastName;
 
+  @NotNull
   @Column(unique = true)
   private String email;
 
-  @NonNull
+  @NotNull
+  @Column(nullable = false)
   private String phone;
 
 }
